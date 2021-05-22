@@ -9,26 +9,15 @@ namespace sqlapp.Services
 {
     public class CourseService
     {
-        public static string db_source = "dbserver100089.database.windows.net";
-        public static string db_user = "demouser";
-        public static string db_password = "password@123";
-        public static string db_database = "appdb";
-
-        private SqlConnection GetConnection()
+        private SqlConnection GetConnection(string _connection_string)
         {
-            var _builder = new SqlConnectionStringBuilder();
-            _builder.DataSource = db_source;
-            _builder.UserID = db_user;
-            _builder.Password = db_password;
-            _builder.InitialCatalog = db_database;
-
-            return new SqlConnection(_builder.ConnectionString);        
+            return new SqlConnection(_connection_string);        
         }
-        public IEnumerable<Course> GetCourses()
+        public IEnumerable<Course> GetCourses(string _connection_string)
         {
             List<Course> _lst = new List<Course>();
             string _statement = "select CourseID, CourseName, Rating from Course";
-            SqlConnection _connection = GetConnection();
+            SqlConnection _connection = GetConnection(_connection_string);
             _connection.Open();
             SqlCommand _sqlCommand = new SqlCommand(_statement, _connection);
 
